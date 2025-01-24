@@ -1,35 +1,61 @@
-document.addEventListener('DOMContentLoaded', function() {
+import { getProjectJSON } from './build.js';
+
+// Editor tabs
+document.addEventListener('DOMContentLoaded', function () {
     const tabs = document.querySelectorAll('.editor-tab');
     const fields = document.querySelectorAll('.editor-field');
 
-    // Функция для активации вкладки
+    // Activate tab
     function activateTab(tabId) {
-        // Скрываем все контенты
+        // Hide everything
         fields.forEach(content => {
             content.classList.remove('active');
         });
-        
-        // Показываем нужный контент
+
+        // Show selected
         const contentId = `editor-field-${tabId.replace('editor-tab-', '')}`;
         const contentElement = document.getElementById(contentId);
         if (contentElement) {
             contentElement.classList.add('active');
         }
-
-        // Обновляем активный класс на вкладках
-        tabs.forEach(tab => {
-            tab.classList.remove('active');
-            if (tab.id === tabId) {
-                tab.classList.add('active');
-            }
-        });
     }
 
-    // Добавляем обработчики событий для вкладок
+    // Event listeners
     tabs.forEach(tab => {
-        tab.addEventListener('click', function() {
+        tab.addEventListener('click', function () {
             activateTab(tab.id);
         });
     });
 
 });
+
+
+// Save project
+function saveToLocalStorage(key, str) {
+    localStorage.setItem(key, str);
+}
+function getFromLocalStorage(key) {
+    return localStorage.getItem(key);
+}
+
+function saveProject() {
+    const projectNameInput = document.getElementById('project-sets-name');
+    const projectName = projectNameInput.value;
+    
+    saveToLocalStorage(`Project.${projectName}`, getProjectJSON());
+    console.log(`📝 Saved data for ${projectName}: `, getFromLocalStorage(`Project.${projectName}`));
+}
+
+function loadProject() {
+    const projectName = document.getElementById('project-sets-name').value;
+
+    let json = getFromLocalStorage(`Project.${projectName}`)
+    let obj = JSON.parse(json)
+
+    const editorFieldScript = document.getElementById('editor-script-text');
+    editorFieldScript.value = obj.script;
+}
+
+
+document.getElementById('ui-save-project').addEventListener('click', saveProject)
+document.getElementById('ui-load-project').addEventListener('click', loadProject)
