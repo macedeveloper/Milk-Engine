@@ -1,55 +1,32 @@
-export function build(gamescript = '') {
-    
-    // Hello world if empty script
-    if (!gamescript) {
-        gamescript = `add([
-text("Hello World!"),
-pos(120, 80),
-]);`
-    }
+import { style, script } from './buildvars.js';
 
-    const window_title = "Milk Engine ∙ Preview ";
+
+export function build(gameScript = '') {
+
+    const window_title = "Milk Engine ∙ Preview";
     const favicon = "https://milk.macestudios.ru/logo.svg"
 
-    const styles = `
-    body {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-        padding: 0;
-        background-color: black;
-        color: white;
-    }
-    `;
+    let code = 
+    `<!DOCTYPE html>
+    <!-- Made with Milk Engine (https://milk.macestudios.ru/) 🥛 -->
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>${window_title}</title>
+        <link rel="shortcut icon" href="${favicon}" type="image/x-icon">
+        <style>${style}</style>
+    </head>
+    <body>
+        <canvas id="canvas"></canvas>
+        <script>${script(gameScript)}</script>
+    </body>
+    </html>`;
 
-    const scripts = `// import kaboom.js and initialize kaboom context
-import kaboom from "https://unpkg.com/kaboom@3000.0.1/dist/kaboom.mjs";
-kaboom();
-
-// custom script
-${gamescript}`;
-
-    const preview_htmlBase = `
-    <!DOCTYPE html>
-    <!-- Made with Milk Engine 🥛 -->
-    <html>
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>${window_title}</title>
-
-            <link rel="shortcut icon" href="${favicon}" type="image/x-icon">
-            
-            <style>${styles}</style>
-            <script async type="module">${scripts}</script>
-        </head>
-        <body>
-        </body>
-    </html>
-    `;
-
-    console.log('⚙️ HTML generated: ', preview_htmlBase)
-    return preview_htmlBase
-
+    console.log('⚙️ HTML generated: ', code)
+    return code
 }
+
 
 export function getProjectJSON() {
     const editorFieldScript = document.getElementById('editor-script-text');

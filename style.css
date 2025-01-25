@@ -1,0 +1,20 @@
+:root {
+    --glass: #8899A6;
+    --milk: #E9E5DC;
+}
+
+body {
+    font-family: "Inter", serif;
+}
+
+.mono {
+    font-family: "Roboto Mono", serif;
+}
+
+.nunito {
+    font-family: "Nunito Sans", serif;
+}
+
+.milky {
+    color: var(--milk);
+}

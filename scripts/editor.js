@@ -1,5 +1,7 @@
 import { getProjectJSON } from './build.js';
 
+let editorState = ''
+
 // Editor tabs
 document.addEventListener('DOMContentLoaded', function () {
     const tabs = document.querySelectorAll('.editor-tab');
